@@ -1,0 +1,123 @@
+// SCSS variables are information about icon's compiled state, stored under its original file name
+//
+// .icon-home {
+//   width: $icon-home-width;
+// }
+//
+// The large array-like variables contain all information about a single icon
+// $icon-home: x y offset_x offset_y width height total_width total_height image_path;
+//
+// At the bottom of this section, we provide information about the spritesheet itself
+// $spritesheet: width height image $spritesheet-sprites;
+$005-facebook-name: '005-facebook';
+$005-facebook-x: 0px;
+$005-facebook-y: 80px;
+$005-facebook-offset-x: 0px;
+$005-facebook-offset-y: -80px;
+$005-facebook-width: 28px;
+$005-facebook-height: 28px;
+$005-facebook-total-width: 143px;
+$005-facebook-total-height: 108px;
+$005-facebook-image: 'sprite.png';
+$005-facebook: (0px, 80px, 0px, -80px, 28px, 28px, 143px, 108px, 'sprite.png', '005-facebook', );
+$006-vk-name: '006-vk';
+$006-vk-x: 43px;
+$006-vk-y: 80px;
+$006-vk-offset-x: -43px;
+$006-vk-offset-y: -80px;
+$006-vk-width: 28px;
+$006-vk-height: 28px;
+$006-vk-total-width: 143px;
+$006-vk-total-height: 108px;
+$006-vk-image: 'sprite.png';
+$006-vk: (43px, 80px, -43px, -80px, 28px, 28px, 143px, 108px, 'sprite.png', '006-vk', );
+$-layer-7-copy-name: 'Layer 7 copy';
+$-layer-7-copy-x: 0px;
+$-layer-7-copy-y: 0px;
+$-layer-7-copy-offset-x: 0px;
+$-layer-7-copy-offset-y: 0px;
+$-layer-7-copy-width: 64px;
+$-layer-7-copy-height: 65px;
+$-layer-7-copy-total-width: 143px;
+$-layer-7-copy-total-height: 108px;
+$-layer-7-copy-image: 'sprite.png';
+$-layer-7-copy: (0px, 0px, 0px, 0px, 64px, 65px, 143px, 108px, 'sprite.png', 'Layer 7 copy', );
+$-shape-3-name: 'Shape 3';
+$-shape-3-x: 79px;
+$-shape-3-y: 0px;
+$-shape-3-offset-x: -79px;
+$-shape-3-offset-y: 0px;
+$-shape-3-width: 64px;
+$-shape-3-height: 65px;
+$-shape-3-total-width: 143px;
+$-shape-3-total-height: 108px;
+$-shape-3-image: 'sprite.png';
+$-shape-3: (79px, 0px, -79px, 0px, 64px, 65px, 143px, 108px, 'sprite.png', 'Shape 3', );
+$spritesheet-width: 143px;
+$spritesheet-height: 108px;
+$spritesheet-image: 'sprite.png';
+$spritesheet-sprites: ($005-facebook, $006-vk, $-layer-7-copy, $-shape-3, );
+$spritesheet: (143px, 108px, 'sprite.png', $spritesheet-sprites, );
+
+// The provided mixins are intended to be used with the array-like variables
+//
+// .icon-home {
+//   @include sprite-width($icon-home);
+// }
+//
+// .icon-email {
+//   @include sprite($icon-email);
+// }
+//
+// Example usage in HTML:
+//
+// `display: block` sprite:
+// <div class="icon-home"></div>
+//
+// To change `display` (e.g. `display: inline-block;`), we suggest using a common CSS class:
+//
+// // CSS
+// .icon {
+//   display: inline-block;
+// }
+//
+// // HTML
+// <i class="icon icon-home"></i>
+@mixin sprite-width($sprite) {
+  width: nth($sprite, 5);
+}
+
+@mixin sprite-height($sprite) {
+  height: nth($sprite, 6);
+}
+
+@mixin sprite-position($sprite) {
+  $sprite-offset-x: nth($sprite, 3);
+  $sprite-offset-y: nth($sprite, 4);
+  background-position: $sprite-offset-x  $sprite-offset-y;
+}
+
+@mixin sprite-image($sprite) {
+  $sprite-image: nth($sprite, 9);
+  background-image: url(#{$sprite-image});
+}
+
+@mixin sprite($sprite) {
+  @include sprite-image($sprite);
+  @include sprite-position($sprite);
+  @include sprite-width($sprite);
+  @include sprite-height($sprite);
+}
+
+// The `sprites` mixin generates identical output to the CSS template
+//   but can be overridden inside of SCSS
+//
+// @include sprites($spritesheet-sprites);
+@mixin sprites($sprites) {
+  @each $sprite in $sprites {
+    $sprite-name: nth($sprite, 10);
+    .#{$sprite-name} {
+      @include sprite($sprite);
+    }
+  }
+}
